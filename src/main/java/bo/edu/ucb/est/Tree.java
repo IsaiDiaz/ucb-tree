@@ -50,14 +50,22 @@ public class Tree<D extends Comparable<D>> {
 //                Paso 2 − Visitamos el nodo raíz.
 //        Paso 3 − Recorre recursivamente el subarbol derecho.
         if(root.getLeft()==null){
+            //Verificamos si el nodo tiene un hijo a la izquierda
+            //Si no es asi, el nodo es un valor minimo y se imprime
             System.out.print(root.getData()+",");
             if(root.getRight()!=null) {
+                //verificamos si ese nodo tiene un hijo a la derecha
+                //si es así recorremos el subarbol derecho recursivamente
                 printInOrder(root.getRight());
             }
         }else{
+            //Si tiene un hijo a la izquierda  se recorre el subarbol izquierdo recursivamente
             printInOrder(root.getLeft());
+            //Al terminar de recorrer el subarbol derecho se imprime el nodo root
             System.out.print(root.getData()+",");
             if(root.getRight()!=null) {
+                //verificamos si existe un subarbol a la derecha
+                //si es así, recorremos el subarbol derecho recursivamente
                 printInOrder(root.getRight());
             }
         }
