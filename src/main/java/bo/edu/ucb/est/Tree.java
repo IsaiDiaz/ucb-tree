@@ -107,7 +107,22 @@ public class Tree<D extends Comparable<D>> {
      * @param root nodo a partir del cual ser comienza a realizar in order recursiva
      */
     public static void printInOrderNonRecursive(Node<?> root) {
+        // TODO Hacer este ejercicio
+    }
 
+    /**
+     * 1. El nodo que se va a eliminar no tiene hijo, es una hoja.
+     * Este es el caso más simple; dado que un nodo hoja no tiene hijos, no necesitamos preocuparnos por nada. Podemos reemplazar el nodo hoja con NULL y liberar el espacio asignado a este nodo.
+     *
+     * 2. El nodo que se va a eliminar tiene un solo hijo (hijo izquierdo o derecho).
+     * En este caso, almacenamos el hijo del nodo y eliminamos el nodo de su posición original. Luego, el nodo hijo se inserta en la posición original del nodo eliminado.
+     *
+     * 3. El nodo que se va a eliminar tiene hijos, hijo izquierdo y derecho.
+     * Este es el caso más complicado porque aquí, no podemos simplemente eliminar o reemplazar el nodo con su hijo. En este caso, encontramos el nodo más pequeño en el subárbol derecho del nodo minnode. Reemplace el valor del nodo que se eliminará con el valor de minnode y llame de forma recursiva a delete en este nodo.
+     * @param data
+     */
+    public void remove(D data) {
+        // TODO Hacer este ejercicio
     }
 
     /**
