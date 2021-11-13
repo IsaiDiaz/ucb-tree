@@ -1,5 +1,7 @@
 package bo.edu.ucb.est;
 
+import java.util.Stack;
+
 public class Tree<D extends Comparable<D>> {
     private Node root;
 
@@ -131,7 +133,59 @@ public class Tree<D extends Comparable<D>> {
      * @param root nodo a partir del cual ser comienza a realizar in order recursiva
      */
     public static void printInOrderNonRecursive(Node <?> root) {
-        // TODO Hacer este ejercicio
+        Stack<Node<?>> pila=new Stack<>();
+        Node <?> current=root;
+        while(current!=null){
+            pila.push(current);
+            current=current.getLeft();
+        }
+        while(current==null & pila.empty()!=true){
+            System.out.print(pila.peek().getData()+",");
+            current=pila.pop().getRight();
+            while(current!=null){
+                pila.push(current);
+                current=current.getLeft();
+            }
+        }
+
+    }
+
+    public Node searchPrevNode(D data) {
+        Stack<Node<D>> pila=new Stack<>();
+        Node <D> current=root;
+        while(current!=null){
+            if(current.getRight()!=null) {
+                if (current.getRight().getData().compareTo(data) == 0) {
+                    return current;
+                }
+            }
+            if(current.getLeft()!=null){
+                if(current.getLeft().getData().compareTo(data)==0){
+                    return current;
+                }
+            }
+            pila.push(current);
+            current=current.getLeft();
+        }
+        while(current==null & pila.empty()!=true){
+            current=pila.pop().getRight();
+            while(current!=null){
+                if(current.getRight()!=null){
+                    if(current.getRight().getData().compareTo(data)==0){
+                        return current;
+                    }
+                }
+                if(current.getLeft()!=null){
+                    if(current.getLeft().getData().compareTo(data)==0){
+                        return current;
+                    }
+                }
+                pila.push(current);
+                current=current.getLeft();
+            }
+        }
+        current=null;
+        return current;
     }
 
     /**
@@ -146,7 +200,89 @@ public class Tree<D extends Comparable<D>> {
      * @param data
      */
     public void remove(D data) {
-        // TODO Hacer este ejercicio
+        Node<D> prev=searchPrevNode(data);
+        Node<D> current=null;
+        boolean left= false;
+        boolean right= false;
+        if(prev!=null){
+            if(prev.getRight()!=null){
+                if(prev.getRight().getData().compareTo(data)==0){
+                    current=prev.getRight();
+                    right=true;
+                }
+            }
+            if(prev.getLeft()!=null){
+                if(prev.getLeft().getData().compareTo(data)==0){
+                    current=prev.getLeft();
+                    left=true;
+                }
+            }
+            if(current.getRight()==null & current.getLeft()==null){
+                if(right){
+                    prev.setRight(null);
+                }else if(left){
+                    prev.setLeft(null);
+                }
+            }else if(current.getLeft()!=null ^ current.getRight()!=null){
+                Node<D> son = null;
+                if(current.getRight()!=null){
+                    son=current.getRight();
+                }else if(current.getLeft()!=null){
+                    son=current.getLeft();
+                }
+                if (right){
+                    prev.setRight(son);
+                }else if(left){
+                    prev.setLeft(son);
+                }
+            }else if(current.getLeft()!=null && current.getRight()!=null){
+                Node<D>minnode=current.getRight();
+                Node<D>prevMinNode=current;
+                while (minnode.getLeft()!=null){
+                    prevMinNode=minnode;
+                    minnode=minnode.getLeft();
+                }
+                if(current.getRight().getData().compareTo(minnode.getData())!=0){
+                    minnode.setRight(current.getRight());
+                }
+                if(current.getLeft().getData().compareTo(minnode.getData())!=0){
+                    minnode.setLeft(current.getLeft());
+                }
+                prevMinNode.setLeft(null);
+                if(right){
+                    prev.setRight(minnode);
+                }else if(left){
+                    prev.setLeft(minnode);
+                }
+            }
+        }else if(root!=null){
+            if(root.getData().compareTo(data)==0) {
+                if(root.getRight()==null & root.getLeft()==null){
+                   root=null;
+                }else if(root.getLeft()!=null ^ root.getRight()!=null){
+                    if(root.getRight()!=null){
+                        root=root.getRight();
+                    }else if(root.getLeft()!=null){
+                        root=root.getLeft();
+                    }
+                }else if(root.getLeft()!=null && root.getRight()!=null){
+                    Node<D>minnode=root.getRight();
+                    Node<D>prevMinNode=root;
+                    while (minnode.getLeft()!=null){
+                        prevMinNode=minnode;
+                        minnode=minnode.getLeft();
+                    }
+                    if(root.getRight().getData().compareTo(minnode.getData())!=0){
+                        minnode.setRight(root.getLeft());
+                    }
+                    if(root.getLeft().getData().compareTo(minnode.getData())!=0){
+                            minnode.setLeft(root.getLeft());
+                    }
+                    prevMinNode.setLeft(null);
+                    root=minnode;
+                }
+            }
+        }
     }
 
     /**
@@ -156,6 +292,13 @@ public class Tree<D extends Comparable<D>> {
      * Step 3 − Recursively traverse right subtree.
      * @param root
      */
+    public static void printInOrder(Node<?> root){
+        if(root!=null){
+            printInOrder(root.getLeft());
+            System.out.println(root.getData());
+            printInOrder(root.getRight());
+        }
+    }
     public static void printPreOrder(Node<?> root) {
         if (root != null) {
             System.out.println(root.getData());
