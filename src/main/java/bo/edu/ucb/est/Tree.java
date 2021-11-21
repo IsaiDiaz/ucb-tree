@@ -273,7 +273,7 @@ public class Tree<D extends Comparable<D>> {
                         minnode=minnode.getLeft();
                     }
                     if(root.getRight().getData().compareTo(minnode.getData())!=0){
-                        minnode.setRight(root.getLeft());
+                        minnode.setRight(root.getRight());
                     }
                     if(root.getLeft().getData().compareTo(minnode.getData())!=0){
                             minnode.setLeft(root.getLeft());
